@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'routes/app_pages.dart';
+import 'routes/app_routes.dart';
+
 void main() {
   runApp(const ConnectCallApp());
 }
@@ -13,17 +16,10 @@ class ConnectCallApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ConnectCall',
-      home: Scaffold(
-        body: Center(
-          child: Text(
-            'ConnectCall',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
+
+      initialRoute: AppRoutes.splash,
+
+      getPages: AppPages.routes,
     );
   }
 }
