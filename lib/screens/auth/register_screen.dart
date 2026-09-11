@@ -3,62 +3,41 @@ import 'package:get/get.dart';
 
 import '../../controllers/auth_controller.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<AuthController>();
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Create Account'),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: 50),
+              const SizedBox(height: 20),
 
-              // Logo
-              Center(
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(
-                    Icons.phone_in_talk,
-                    color: Colors.white,
-                    size: 42,
+              
+
+              // Name
+              TextField(
+                controller: controller.nameController,
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  hintText: 'Enter your name',
+                  prefixIcon: const Icon(Icons.person_outline),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 24),
-
-              const Text(
-                'Welcome Back',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 8),
-
-              const Text(
-                'Login to continue to ConnectCall',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 15,
-                ),
-              ),
-
-              const SizedBox(height: 40),
+              const SizedBox(height: 16),
 
               // Email
               TextField(
@@ -83,7 +62,6 @@ class LoginScreen extends StatelessWidget {
                   obscureText: !controller.isPasswordVisible.value,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    hintText: 'Enter your password',
                     prefixIcon: const Icon(Icons.lock_outline),
                     suffixIcon: IconButton(
                       onPressed: controller.togglePasswordVisibility,
@@ -100,15 +78,29 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
 
+              const SizedBox(height: 16),
+
+              // Confirm Password
+              TextField(
+                controller: controller.confirmPasswordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  prefixIcon: const Icon(Icons.lock_outline),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+
               const SizedBox(height: 24),
 
-              // Login button
               Obx(
   () => SizedBox(
     height: 52,
     child: ElevatedButton(
       onPressed:
-          controller.isLoading.value ? null : controller.login,
+          controller.isLoading.value ? null : controller.register,
       child: controller.isLoading.value
           ? const SizedBox(
               width: 24,
@@ -118,27 +110,20 @@ class LoginScreen extends StatelessWidget {
               ),
             )
           : const Text(
-              'Login',
+              'Create Account',
               style: TextStyle(fontSize: 16),
             ),
     ),
   ),
 ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
 
-              // Registration
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Don't have an account? "),
-                  TextButton(
-                    onPressed: () {
-                      Get.toNamed('/register');
-                    },
-                    child: const Text('Create Account'),
-                  ),
-                ],
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: const Text('Already have an account? Login'),
               ),
             ],
           ),
