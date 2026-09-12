@@ -8,7 +8,7 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 dependencies {
-    implementation("im.zego:zpns-fcm:2.8.1")
+    implementation("im.zego:zpns-fcm:2.8.0")
 }
 
 android {

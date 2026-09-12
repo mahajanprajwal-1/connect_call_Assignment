@@ -1,4 +1,5 @@
 import 'package:connect_call/controllers/theme_controller.dart';
+import 'package:connect_call/core/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -50,19 +51,13 @@ class ConnectCallApp extends StatelessWidget {
 
       title: 'ConnectCall',
 
-      // Light theme
-      theme: ThemeData(
-        brightness: Brightness.light,
-        useMaterial3: true,
-      ),
+      // Premium purple Material 3 light theme
+      theme: AppTheme.lightTheme,
 
-      // Dark theme
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-        useMaterial3: true,
-      ),
+      // Premium purple Material 3 dark theme
+      darkTheme: AppTheme.darkTheme,
 
-      // Initial theme
+      // Initial theme — respects ThemeController
       themeMode: ThemeMode.system,
 
       initialRoute: AppRoutes.splash,
