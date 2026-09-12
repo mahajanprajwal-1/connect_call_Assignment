@@ -54,6 +54,7 @@ class UserProfileScreen extends StatelessWidget {
         ],
         isVideoCall: isVideoCall,
         callID: callID,
+         resourceID: 'connectcall_call',
       );
 
       print('ZEGO SEND RESULT: $result');

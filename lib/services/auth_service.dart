@@ -43,10 +43,28 @@ class AuthService {
       password: password,
     );
 
-    return credential.user;
+    final user = credential.user;
+
+    if (user != null) {
+      await updateOnlineStatus(true);
+    }
+
+    return user;
+  }
+
+  Future<void> updateOnlineStatus(bool isOnline) async {
+    final user = _firebaseAuth.currentUser;
+
+    if (user == null) return;
+
+    await _firestore.collection('users').doc(user.uid).update({
+      'isOnline': isOnline,
+      'lastSeen': FieldValue.serverTimestamp(),
+    });
   }
 
   Future<void> logout() async {
+    await updateOnlineStatus(false);
     await _firebaseAuth.signOut();
   }
 

@@ -1,20 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connect_call/controllers/theme_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../services/auth_service.dart';
 import '../../services/zego_service.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() =>
-      _ProfileScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState
-    extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
+  final ThemeController themeController =
+      Get.find<ThemeController>();
+
+  final AuthService _authService = AuthService();
+
   final FirebaseAuth _auth =
       FirebaseAuth.instance;
 
@@ -77,7 +82,9 @@ class _ProfileScreenState
   Future<void> logout() async {
     try {
       await ZegoService.dispose();
-      await _auth.signOut();
+
+      // Updates Firestore isOnline = false
+      await _authService.logout();
 
       Get.offAllNamed('/login');
     } catch (e) {
@@ -134,11 +141,41 @@ class _ProfileScreenState
                     email,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey.shade600,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.6),
                     ),
                   ),
 
                   const SizedBox(height: 40),
+
+                  // DARK MODE
+                  Obx(
+                    () => Card(
+                      child: SwitchListTile(
+                        secondary: Icon(
+                          themeController.isDarkMode.value
+                              ? Icons.dark_mode
+                              : Icons.light_mode,
+                        ),
+                        title: const Text(
+                          'Dark Mode',
+                        ),
+                        subtitle: Text(
+                          themeController.isDarkMode.value
+                              ? 'Dark theme enabled'
+                              : 'Light theme enabled',
+                        ),
+                        value: themeController.isDarkMode.value,
+                        onChanged: (_) {
+                          themeController.toggleTheme();
+                        },
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
 
                   Card(
                     child: ListTile(

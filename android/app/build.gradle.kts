@@ -7,6 +7,9 @@ plugins {
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+dependencies {
+    implementation("im.zego:zpns-fcm:2.8.1")
+}
 
 android {
     namespace = "com.example.connect_call"
